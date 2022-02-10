@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import JsonExplorer from "./components/JsonExplorer";
+
+const testInput = {
+  date: "2021-10-27T07:49:14.896Z",
+  hasError: false,
+  number: 5,
+  iAmAnObject: {
+    id: "4c212130",
+    prop: "iban",
+    value: "DE81200505501265402568",
+    hasError: false,
+  },
+  fields: [
+    {
+      id: "4c212130",
+      prop: "iban",
+      value: "DE81200505501265402568",
+      hasError: false,
+    },
+  ],
+};
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <JsonExplorer input={testInput} />
     </div>
   );
 }
