@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import JsonExplorer from "./components/JsonExplorer";
 
 const testInput = {
@@ -22,9 +22,11 @@ const testInput = {
 };
 
 function App() {
+  const [path, setPath] = useState("none given yet :)");
   return (
     <div className="App">
-      <JsonExplorer input={testInput} />
+      <span>current path is: {path}</span>
+      <JsonExplorer input={testInput} onKeyClicked={setPath} />
     </div>
   );
 }

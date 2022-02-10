@@ -1,10 +1,20 @@
 import React, { FunctionComponent } from "react";
 
-const JsonExplorer: FunctionComponent<Record<string, any>> = ({ input }) => {
+type JsonExplorerProps = {
+  input: Record<string, any>;
+  onKeyClicked: Function;
+};
+
+const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
+  input,
+  onKeyClicked,
+}) => {
   const isPrimitiveJsonValue = (value: any) => typeof value !== "object";
   const printScope = (scope: string) => {
     console.log(scope);
+    onKeyClicked(scope);
   };
+
   const traverseJsonAndDelegateRendering = (
     object: Record<string, any>,
     scope = "root"
