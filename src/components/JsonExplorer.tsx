@@ -10,7 +10,9 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
   onKeyClicked,
 }) => {
   const isPrimitiveJsonValue = (value: any) => typeof value !== "object";
+
   const indentation = "  ";
+
   const printScope = (scope: string[]) => {
     onKeyClicked(scope.join("."));
   };
