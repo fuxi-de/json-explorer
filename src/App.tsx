@@ -35,7 +35,7 @@ function App() {
   return (
     <div className="App">
       <span>current path is: {path}</span>
-      <JsonExplorer input={testInput} onKeyClicked={setPath} />
+      <JsonExplorer input={testInput} onKeySelected={setPath} />
     </div>
   );
 }
