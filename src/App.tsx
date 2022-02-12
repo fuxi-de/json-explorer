@@ -18,7 +18,16 @@ const testInput = {
       value: "DE81200505501265402568",
       hasError: false,
     },
+    {
+      id: "4c212130",
+      prop: "iban",
+      value: "DE81200505501265402568",
+      hasError: false,
+    },
   ],
+  anotherDate: "2021-10-27T07:49:14.896Z",
+  bool: false,
+  num: 5,
 };
 
 function App() {
