@@ -74,6 +74,16 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
           <span>[</span>
           {value.map((value: any, index: number) => {
             const nestedScope = [...scope, key, `[${index}]`];
+            if (isPrimitiveJsonValue(value)) {
+              const nestedIndentation = `${currentIndentation.repeat(
+                nestedScope.length
+              )}`;
+              return (
+                <div key={nestedScope.join(".")}>
+                  {`${nestedIndentation}${JSON.stringify(value)}`},
+                </div>
+              );
+            }
             return traverseJsonAndDelegateRendering(value, nestedScope);
           })}
           <span>{`${currentIndentation}],`}</span>
