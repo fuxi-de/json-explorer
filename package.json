@@ -1,6 +1,11 @@
 {
   "name": "json-explorer",
-  "version": "0.1.0",
+  "release": {
+    "branches": [
+      "main"
+    ]
+  },
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
