@@ -2,7 +2,12 @@ import React, { FunctionComponent } from "react";
 
 type JsonExplorerProps = {
   input: Record<string, any>;
-  onKeySelected: Function;
+  onKeySelected: (jsonProperty: JsonProperty) => void;
+};
+
+export type JsonProperty = {
+  scope: string;
+  value: {};
 };
 
 const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
@@ -12,10 +17,6 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
   const isPrimitiveJsonValue = (value: any) => typeof value !== "object";
 
   const indentation = "  ";
-
-  const printScope = (scope: string[]) => {
-    onKeySelected(scope.join("."));
-  };
 
   const traverseJsonAndDelegateRendering = (
     object: Record<string, any>,
@@ -48,9 +49,16 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
   ): JSX.Element => {
     const currentScope = [...scope, key];
     const currentIndentation = `${indentation.repeat(currentScope.length)}`;
+    const jsonProperty: JsonProperty = {
+      scope: currentScope.join("."),
+      value,
+    };
     return (
       <div key={key}>
-        <span onClick={() => printScope(currentScope)}>
+        <span
+          className={"text-blue-900 cursor-pointer"}
+          onClick={() => onKeySelected(jsonProperty)}
+        >
           {`${currentIndentation}"${key}"`}:{" "}
         </span>
         <span>{JSON.stringify(value)},</span>
@@ -65,10 +73,14 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
   ): JSX.Element => {
     const currentScope = [...scope, key];
     const currentIndentation = `${indentation.repeat(currentScope.length)}`;
+    const currentJsonProperty: JsonProperty = {
+      scope: currentScope.join("."),
+      value: JSON.stringify(value),
+    };
     if (value?.constructor.name === "Array") {
       return (
         <div key={key}>
-          <span onClick={() => printScope(currentScope)}>
+          <span onClick={() => onKeySelected(currentJsonProperty)}>
             {`${currentIndentation}"${key}"`}:{" "}
           </span>
           <span>[</span>
@@ -92,7 +104,7 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
     } else {
       return (
         <div key={key}>
-          <span onClick={() => printScope(currentScope)}>
+          <span onClick={() => onKeySelected(currentJsonProperty)}>
             {`${currentIndentation}"${key}"`}:{" "}
           </span>
           <span>{"{"}</span>
