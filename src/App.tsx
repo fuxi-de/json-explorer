@@ -36,7 +36,7 @@ const testInput = {
 function App() {
   const initialState: JsonProperty = {
     scope: "",
-    value: "",
+    value: undefined,
   };
 
   const [jsonProperty, setJsonProperty] = useState(initialState);
@@ -48,6 +48,8 @@ function App() {
     const cacheHit = jsonCache.get(query);
     if (cacheHit) {
       setJsonProperty(cacheHit);
+    } else {
+      setJsonProperty({ scope: query, value: undefined });
     }
   };
 

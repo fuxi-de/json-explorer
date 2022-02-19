@@ -8,7 +8,7 @@ type JsonExplorerProps = {
 
 export type JsonProperty = {
   scope: string;
-  value: {};
+  value: any;
 };
 
 const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
