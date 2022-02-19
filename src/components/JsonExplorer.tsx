@@ -3,7 +3,7 @@ import React, { FunctionComponent, useEffect } from "react";
 type JsonExplorerProps = {
   input: Record<string, any>;
   onKeySelected: (jsonProperty: JsonProperty) => void;
-  onCacheFilled: (jsonCache: Map<string, string>) => void;
+  onCacheFilled: (jsonCache: Map<string, JsonProperty>) => void;
 };
 
 export type JsonProperty = {
@@ -16,7 +16,7 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
   onKeySelected,
   onCacheFilled,
 }) => {
-  const jsonCache = new Map<string, string>();
+  const jsonCache = new Map<string, JsonProperty>();
   const isPrimitiveJsonValue = (value: any) => typeof value !== "object";
 
   const indentation = "  ";
@@ -59,7 +59,7 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
       scope: currentScope.join("."),
       value,
     };
-    jsonCache.set(currentScope.join("."), value);
+    jsonCache.set(currentScope.join("."), jsonProperty);
     return (
       <div key={key}>
         <span
@@ -84,8 +84,8 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
       scope: currentScope.join("."),
       value: JSON.stringify(value),
     };
+    jsonCache.set(currentJsonProperty.scope, currentJsonProperty);
     if (value?.constructor.name === "Array") {
-      jsonCache.set(currentScope.join("."), value);
       return (
         <div key={key}>
           <span onClick={() => onKeySelected(currentJsonProperty)}>
