@@ -1,8 +1,9 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 
 type JsonExplorerProps = {
   input: Record<string, any>;
   onKeySelected: (jsonProperty: JsonProperty) => void;
+  onCacheFilled: (jsonCache: Map<string, string>) => void;
 };
 
 export type JsonProperty = {
@@ -13,11 +14,16 @@ export type JsonProperty = {
 const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
   input,
   onKeySelected,
+  onCacheFilled,
 }) => {
+  const jsonCache = new Map<string, string>();
   const isPrimitiveJsonValue = (value: any) => typeof value !== "object";
 
   const indentation = "  ";
-
+  useEffect(() => {
+    console.log(jsonCache);
+    onCacheFilled(jsonCache);
+  }, []);
   const traverseJsonAndDelegateRendering = (
     object: Record<string, any>,
     scope: string[] = [],
@@ -53,6 +59,7 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
       scope: currentScope.join("."),
       value,
     };
+    jsonCache.set(currentScope.join("."), value);
     return (
       <div key={key}>
         <span
@@ -78,6 +85,7 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
       value: JSON.stringify(value),
     };
     if (value?.constructor.name === "Array") {
+      jsonCache.set(currentScope.join("."), value);
       return (
         <div key={key}>
           <span onClick={() => onKeySelected(currentJsonProperty)}>

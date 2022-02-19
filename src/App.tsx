@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import JsonExplorer, { JsonProperty } from "./components/JsonExplorer";
+import { Input } from "postcss";
 
 const testInput = {
   date: "2021-10-27T07:49:14.896Z",
@@ -39,8 +40,25 @@ function App() {
     value: "",
   };
 
-  const [path, setPath] = useState(initialState);
-  const { scope, value } = path;
+  const [jsonProperty, setJsonProperty] = useState(initialState);
+  const { scope, value } = jsonProperty;
+
+  const [jsonCache, setJsonCache] = useState(new Map<string, string>());
+  const [query, setQuery] = useState("");
+
+  const handleChange = (query: string) => {
+    console.log(query);
+    const cacheHit = jsonCache.get(query);
+    if (cacheHit) {
+      console.log("Cache hit!", cacheHit);
+    }
+  };
+
+  useEffect(() => {
+    const timeOutId = setTimeout(() => handleChange(query), 500);
+    return () => clearTimeout(timeOutId);
+  }, [query]);
+
   return (
     <div className="App p-8">
       <div className="mb-4">
@@ -49,8 +67,8 @@ function App() {
           id="selected"
           type="text"
           placeholder="Select a JSON Key"
-          readOnly
-          value={scope}
+          onChange={(event) => setQuery(event.target.value)}
+          value={query}
         />
         <label
           className="block text-gray-700 text-sm font-bold mt-2"
@@ -60,7 +78,11 @@ function App() {
         </label>
       </div>
 
-      <JsonExplorer input={testInput} onKeySelected={setPath} />
+      <JsonExplorer
+        input={testInput}
+        onKeySelected={setJsonProperty}
+        onCacheFilled={setJsonCache}
+      />
     </div>
   );
 }
