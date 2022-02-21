@@ -1,7 +1,20 @@
 import React, { FunctionComponent } from "react";
 
+type nestedDemoData = {
+  id: string;
+  prop: string;
+  value: string;
+  hasError: boolean;
+};
+
+type DemoData = {
+  date: string;
+  hasError: boolean;
+  fields: nestedDemoData[];
+};
+
 type JsonExplorerProps = {
-  input: Record<string, any>;
+  input: DemoData;
   onKeySelected: (jsonProperty: JsonProperty) => void;
 };
 
@@ -74,38 +87,22 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
       scope: currentScope.join("."),
       value: JSON.stringify(value),
     };
-    if (value?.constructor.name === "Array") {
-      return (
-        <div key={key}>
-          <span
-            className={"text-blue-900 cursor-pointer"}
-            onClick={() => onKeySelected(currentJsonProperty)}
-          >
-            {`${currentIndentation}"${key}"`}:{" "}
-          </span>
-          <span>[</span>
-          {value.map((value: any, index: number) => {
-            const nestedScope = [...scope, key, `[${index}]`];
-            return traverseJsonAndDelegateRendering(value, nestedScope);
-          })}
-          <span>{`${currentIndentation}],`}</span>
-        </div>
-      );
-    } else {
-      return (
-        <div key={key}>
-          <span
-            className={"text-blue-900 cursor-pointer"}
-            onClick={() => onKeySelected(currentJsonProperty)}
-          >
-            {`${currentIndentation}"${key}"`}:{" "}
-          </span>
-          <span>{"{"}</span>
-          {traverseJsonAndDelegateRendering(value, currentScope)}
-          <span>{`${currentIndentation}},`}</span>
-        </div>
-      );
-    }
+    return (
+      <div key={key}>
+        <span
+          className={"text-blue-900 cursor-pointer"}
+          onClick={() => onKeySelected(currentJsonProperty)}
+        >
+          {`${currentIndentation}"${key}"`}:{" "}
+        </span>
+        <span>[</span>
+        {value.map((value: any, index: number) => {
+          const nestedScope = [...scope, key, `[${index}]`];
+          return traverseJsonAndDelegateRendering(value, nestedScope);
+        })}
+        <span>{`${currentIndentation}],`}</span>
+      </div>
+    );
   };
 
   return <pre>{traverseJsonAndDelegateRendering(input)}</pre>;
