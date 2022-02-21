@@ -20,8 +20,7 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
 
   const traverseJsonAndDelegateRendering = (
     object: Record<string, any>,
-    scope: string[] = [],
-    shouldRenderBrackets = true
+    scope: string[] = []
   ): JSX.Element => {
     const renderableJson = Object.entries(object).map(([key, value]) => {
       if (isPrimitiveJsonValue(value)) {
@@ -31,14 +30,12 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
       }
     });
     const key = scope.join(".");
-    return shouldRenderBrackets ? (
+    return (
       <div key={key}>
         <span>{`${indentation.repeat(scope.length)}{`}</span>
         {renderableJson}
         <span>{`${indentation.repeat(scope.length)}}`}</span>
       </div>
-    ) : (
-      <div key={key}>{renderableJson}</div>
     );
   };
 
@@ -108,7 +105,7 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
             {`${currentIndentation}"${key}"`}:{" "}
           </span>
           <span>{"{"}</span>
-          {traverseJsonAndDelegateRendering(value, currentScope, false)}
+          {traverseJsonAndDelegateRendering(value, currentScope)}
           <span>{`${currentIndentation}},`}</span>
         </div>
       );
