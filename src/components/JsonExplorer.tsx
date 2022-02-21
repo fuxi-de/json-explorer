@@ -77,7 +77,10 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
     if (value?.constructor.name === "Array") {
       return (
         <div key={key}>
-          <span onClick={() => onKeySelected(currentJsonProperty)}>
+          <span
+            className={"text-blue-900 cursor-pointer"}
+            onClick={() => onKeySelected(currentJsonProperty)}
+          >
             {`${currentIndentation}"${key}"`}:{" "}
           </span>
           <span>[</span>
@@ -91,7 +94,10 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
     } else {
       return (
         <div key={key}>
-          <span onClick={() => onKeySelected(currentJsonProperty)}>
+          <span
+            className={"text-blue-900 cursor-pointer"}
+            onClick={() => onKeySelected(currentJsonProperty)}
+          >
             {`${currentIndentation}"${key}"`}:{" "}
           </span>
           <span>{"{"}</span>
