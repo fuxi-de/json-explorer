@@ -39,7 +39,7 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
       if (isPrimitiveJsonValue(value)) {
         return renderPrimitiveType(key, value, scope);
       } else {
-        return renderReferenceType(key, value, scope);
+        return renderArray(key, value, scope);
       }
     });
     const key = scope.join(".");
@@ -76,7 +76,7 @@ const JsonExplorer: FunctionComponent<JsonExplorerProps> = ({
     );
   };
 
-  const renderReferenceType = (
+  const renderArray = (
     key: string,
     value: any,
     scope: string[]
